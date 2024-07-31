@@ -25,6 +25,12 @@ export default function Home() {
       </Head>
       
       <Content />
+      
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
     </div>
   );
 }

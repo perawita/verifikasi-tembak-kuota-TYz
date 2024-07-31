@@ -1,12 +1,21 @@
-// import { serialize } from 'cookie';
-// import { NextApiRequest, NextApiResponse } from 'next';
-// import { CSRF } from 'csrf';
+// export default async function GET(req, res) {
+//     try {
+//         const res = await fetch('http://127.0.0.1:8000/api/csrf-token', {
+//             method: 'GET',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'Accept': 'application/json',
+//             },
+//         });
 
-// const csrf = new CSRF();
+//         if (!res.ok) {
+//             throw new Error('Failed to fetch CSRF token');
+//         }
 
-// export default function handler(req, res) {
-//   const token = csrf.create();
-//   const cookie = serialize('csrfToken', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'Strict', path: '/' });
-//   res.setHeader('Set-Cookie', cookie);
-//   res.status(200).json({ csrfToken: token });
+//         const data = await res.json();
+//         res.status(200).json({ csrfToken: data.csrfToken });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({massage: 'Error fetching CSRF token'});
+//     }
 // }
