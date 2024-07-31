@@ -1,0 +1,159 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+
+export default function Content() {
+    const [csrfToken, setCsrfToken] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [otp, setOtp] = useState('');
+    const [message, setMessage] = useState('');
+
+    useEffect(() => {
+        async function fetchCsrfToken() {
+            try {
+                const res = await fetch('https://provider.mitunnel.id/csrf-token', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // Tambahkan header CORS jika diperlukan
+                        'Accept': 'application/json',
+                    },
+                });
+
+                if (!res.ok) {
+                    throw new Error('Failed to fetch CSRF token');
+                }
+
+                const data = await res.json();
+                setCsrfToken(data.csrfToken);
+            } catch (error) {
+                console.error(error);
+                setMessage('Error fetching CSRF token');
+            }
+        }
+
+        fetchCsrfToken();
+    }, []);
+
+    const handleInputNumber = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await fetch('https://provider.mitunnel.id/api/send-number', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+                body: JSON.stringify({ phoneNumber }),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                setMessage('OTP has been sent to your phone.');
+            } else {
+                setMessage('Failed to send OTP.');
+            }
+        } catch (error) {
+            console.error(error);
+            setMessage('Error sending OTP.');
+        }
+    }
+
+    const handleOtpSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await fetch('https://provider.mitunnel.id/api/verify-otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+                body: JSON.stringify({ otp }),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                setMessage('OTP verified successfully.');
+            } else {
+                setMessage('Failed to verify OTP.');
+            }
+        } catch (error) {
+            console.error(error);
+            setMessage('Error verifying OTP.');
+        }
+    }
+
+    return (
+        <>
+            <div className="mx-auto max-w-2xl text-center">
+                <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Verifikasi nomor anda</h2>
+                <p className="mt-2 text-lg leading-8 text-gray-600">
+                    Verifikasi nomor anda untuk memudahkan admin melakukan pembelian
+                </p>
+                {message && <p className="mt-2 text-lg leading-8 text-red-600">{message}</p>}
+            </div>
+            <div className="mx-auto mt-16 max-w-xl sm:mt-20">
+                <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+                    {/* Input Nomor */}
+                    <div className="sm:col-span-2">
+                        <label htmlFor="nomor" className="block text-sm font-semibold leading-6 text-gray-900">
+                            XL phone number
+                        </label>
+                        <form onSubmit={handleInputNumber}>
+                            <div className="mt-2.5 flex items-center">
+                                <input
+                                    id="nomor"
+                                    name="nomor"
+                                    type="number"
+                                    autoComplete="organization"
+                                    placeholder='0819xxxxx'
+                                    className="flex-grow block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    required
+                                    value={phoneNumber}
+                                    onChange={(e) => setPhoneNumber(e.target.value)}
+                                />
+                                <button
+                                    type="submit"
+                                    className="ml-4 flex-none rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                >
+                                    Minta Otp
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    {/* Input Otp */}
+                    <div className="sm:col-span-2">
+                        <label htmlFor="otp" className="block text-sm font-semibold leading-6 text-gray-900">
+                            Input Otp
+                        </label>
+                        <form onSubmit={handleOtpSubmit}>
+                            <div className="mt-2.5 flex items-center">
+                                <input
+                                    id="otp"
+                                    name="otp"
+                                    type="text"
+                                    autoComplete="off"
+                                    className="flex-grow block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    required
+                                    value={otp}
+                                    onChange={(e) => setOtp(e.target.value)}
+                                />
+                                <button
+                                    type="submit"
+                                    className="ml-4 flex-none rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                >
+                                    Verifikasi Otp
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+}
