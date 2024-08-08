@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-import Response from '@/pages/tamplates/response'
+import Response from '@/pages/tamplates/res/'
 
 export default function Content() {
     const [phoneNumber, setPhoneNumber] = useState('');
