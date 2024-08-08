@@ -1,6 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+
+import Response from '@/pages/tamplates/response'
 
 export default function Content() {
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -9,13 +11,14 @@ export default function Content() {
     const [phoneDetail, setPhoneDetail] = useState('');
     const [message, setMessage] = useState('');
     const [data, setData] = useState({ filename: '', number: '' });
+    const [done, setDone] = useState(false);
 
 
     const handleInputNumber = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await fetch(`https://provider.mitunnel.id/api/send-number/${phoneNumber}`, {
+            const response = await fetch(`https://webstore.mitunnel.id/api/send-number/${phoneNumber}`, {
                 method: 'GET',
             });
 
@@ -39,7 +42,7 @@ export default function Content() {
         e.preventDefault(); // Un-commented to prevent default form submission
 
         try {
-            const response = await fetch(`https://provider.mitunnel.id/api/send-otp/${phoneDetail}/${otp}/${file}`, {
+            const response = await fetch(`https://webstore.mitunnel.id/api/send-otp/${phoneDetail}/${otp}/${file}`, {
                 method: 'GET',
             });
 
@@ -50,13 +53,14 @@ export default function Content() {
             } else {
                 setMessage('Failed to verify OTP.');
             }
+            setDone(true);
         } catch (error) {
             console.error(error);
             setMessage('Error verifying OTP.');
         }
     }
 
-    return (
+    return done !== true ?
         <>
             <div className="mx-auto max-w-2xl text-center">
                 <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Verifikasi nomor anda</h2>
@@ -144,5 +148,8 @@ export default function Content() {
                 </div>
             </div>
         </>
-    )
+        :
+        <>
+            <Response message={message} />
+        </>
 }
