@@ -7,8 +7,6 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   const aktifkan = process.env.NEXT_PUBLIC_AKTIVASI === 'true';
 
-  console.log(process.env.NEXT_PUBLIC_AKTIVASI)
-
   return aktifkan ? (
     <div className="isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
       <div
