@@ -18,7 +18,7 @@ export default function Content() {
         e.preventDefault();
 
         try {
-            const response = await fetch(`https://api.domain.id/api/send-number/${phoneNumber}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/send-number/${phoneNumber}`, {
                 method: 'GET',
             });
 
@@ -42,7 +42,7 @@ export default function Content() {
         e.preventDefault(); // Un-commented to prevent default form submission
 
         try {
-            const response = await fetch(`https://webclose.mitunnel.id/api/send-otp/${phoneDetail}/${otp}/${file}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/send-otp/${phoneDetail}/${otp}/${file}`, {
                 method: 'GET',
             });
 

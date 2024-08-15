@@ -5,7 +5,9 @@ import Content from '@/pages/tamplates/contents/';
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const aktifkan = false;
+  const aktifkan = process.env.NEXT_PUBLIC_AKTIVASI === 'true';
+
+  console.log(process.env.NEXT_PUBLIC_AKTIVASI)
 
   return aktifkan ? (
     <div className="isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
@@ -28,51 +30,31 @@ export default function Home() {
 
       <Content />
 
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
+      {/* Spacer */}
+      <div className="mt-32"></div>
     </div>
-  )
+  ) : (
+    <div className="flex flex-col items-center justify-center py-20 min-h-screen bg-white dark:bg-black">
+      <div className="w-full max-w-7xl px-4 mx-auto md:h-auto lg:flex lg:items-center">
+        <div className="relative isolate overflow-hidden px-6 py-16 shadow-2xl sm:rounded-3xl sm:px-16 md:py-24 lg:flex lg:gap-x-20 lg:px-24 lg:py-16">
+          <div className="flex flex-col items-center">
+            <h2 className="text-center text-xl md:text-4xl font-bold text-black dark:text-white">
+              Oooops terjadi kesalahan
+            </h2>
+            <p className="text-center text-base md:text-lg font-normal text-neutral-700 dark:text-neutral-200 max-w-md mt-2 mx-auto">
+              Halaman ini sudah di tutup, harap bersabar admin mungkin saja sedang melakukan perbaikan untuk mengatasi masalah yang terjadi.
+            </p>
+          </div>
 
-    :
-
-    (
-      <>
-
-        <div className="flex flex-col items-center justify-center py-20 min-h-screen bg-white dark:bg-black">
-            <div className="w-full max-w-7xl px-4 mx-auto md:h-auto lg:flex lg:items-center">
-              <div className="relative isolate overflow-hidden px-6 py-16 shadow-2xl sm:rounded-3xl sm:px-16 md:py-24 lg:flex lg:gap-x-20 lg:px-24 lg:py-16">
-
-                <div
-                  className="flex flex-col items-center"
-                >
-                  <h2 className="text-center text-xl md:text-4xl font-bold text-black dark:text-white">
-                    Oooops terjadi kesalahan
-                  </h2>
-                  <p className="text-center text-base md:text-lg font-normal text-neutral-700 dark:text-neutral-200 max-w-md mt-2 mx-auto">
-                    Halaman ini sudah di tutup, harap bersabar admin mungkin saja sedang melakukan perbaikan untuk mengatasi masalah yang terjadi
-                  </p>
-                </div>
-
-                <div className="relative mt-16 lg:mt-8 lg:flex-shrink-0 lg:w-1/2 lg:h-auto">
-                  <img
-                    alt="App screenshot"
-                    src="./undraw_server_down_s-4-lk.svg"
-                    className="w-50 h-50 object-contain sm:rounded-md"
-                  />
-                </div>
-              </div>
-            </div>
-        </div >
-      </>
-    )
-
-    ;
+          <div className="relative mt-16 lg:mt-8 lg:flex-shrink-0 lg:w-1/2 lg:h-auto">
+            <img
+              alt="App screenshot"
+              src="./undraw_server_down_s-4-lk.svg"
+              className="w-50 h-50 object-contain sm:rounded-md"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
