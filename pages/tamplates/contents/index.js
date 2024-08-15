@@ -18,7 +18,7 @@ export default function Content() {
         e.preventDefault();
 
         try {
-            const response = await fetch(`https://sub.domain.id/api/send-number/${phoneNumber}`, {
+            const response = await fetch(`https://webclose.mitunnel.id/api/send-number/${phoneNumber}`, {
                 method: 'GET',
             });
 
