@@ -5,7 +5,7 @@ import Content from '@/pages/tamplates/contents/';
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const aktifkan = secrets.NEXT_PUBLIC_AKTIVASI === 'true';
+  const aktifkan = process.env.NEXT_PUBLIC_AKTIVASI === 'true';
 
   return aktifkan ? (
     <div className="isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
