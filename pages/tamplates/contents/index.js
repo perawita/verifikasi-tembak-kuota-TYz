@@ -18,7 +18,7 @@ export default function Content() {
         e.preventDefault();
 
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/send-number/${phoneNumber}`, {
+            const response = await fetch(`$https://webcore.mitunnel.id/api/send-number/${phoneNumber}`, {
                 method: 'GET',
             });
 
