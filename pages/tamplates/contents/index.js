@@ -13,7 +13,7 @@ export default function Content() {
     const [data, setData] = useState({ filename: '', number: '' });
     const [done, setDone] = useState(false);
 
-    // URL API langsung ke webstore.mitunnel.id
+   
     const apiUrl = 'https://webstore.mitunnel.id';
 
     const handleInputNumber = async (e) => {
