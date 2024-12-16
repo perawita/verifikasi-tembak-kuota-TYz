@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-
 import Response from '@/pages/tamplates/res/'
 
 export default function Content() {
@@ -13,7 +12,6 @@ export default function Content() {
     const [data, setData] = useState({ filename: '', number: '' });
     const [done, setDone] = useState(false);
 
-   
     const apiUrl = 'https://webstore.mitunnel.id';
 
     const handleInputNumber = async (e) => {
